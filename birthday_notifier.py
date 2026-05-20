@@ -70,6 +70,10 @@ def get_sheet_data() -> list[dict]:
 
     records = []
     for row in data_rows:
+        # 퇴사자 섹션 시작 시 읽기 중단
+        if any("퇴사자" in str(cell) for cell in row):
+            break
+
         if len(row) <= max(name_idx, bday_idx):
             continue
         name = row[name_idx].strip()
