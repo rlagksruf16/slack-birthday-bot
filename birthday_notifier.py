@@ -5,7 +5,6 @@
 
 import json
 import os
-import random
 import sys
 from datetime import datetime
 
@@ -27,11 +26,16 @@ NAME_COL      = "영문이름"
 BIRTHDAY_COL  = "생년월일"
 HEADER_ROW    = 2   # 헤더가 2행에 있음
 
-BIRTHDAY_MESSAGES = [
-    "🎂 오늘은 *{name}*님의 생일입니다! 🎉\n모두 함께 축하해 주세요~ 🎁🎊",
-    "🎈 *{name}*님, 생일 축하드립니다! 🥳\n행복한 하루 되세요! 🌟",
-    "🎉 Happy Birthday! *{name}*님의 특별한 날을 축하합니다! 🎂✨",
-]
+BIRTHDAY_MESSAGE = (
+    "*[ 공지 | 🎂 생일 안내 ]*\n\n"
+    ":tada::tada: 오늘은 *{name}*​의 생일입니다 :tada::tada:\n\n"
+    ":confetti_ball: *{name}*​가 오늘 행복한 하루를 보낼 수 있도록 다 같이 축하해 주세요 :gift:"
+)
+
+IMAGE_URL = (
+    "https://raw.githubusercontent.com/rlagksruf16/"
+    "slack-birthday-bot/main/ALLSALE_HBD.png"
+)
 
 
 def get_sheet_data() -> list[dict]:
@@ -104,10 +108,25 @@ def find_birthdays_today(records: list[dict]) -> list[dict]:
 
 def send_slack_message(client: WebClient, person: dict) -> bool:
     """Slack 채널에 생일 축하 메시지를 전송합니다."""
-    text = random.choice(BIRTHDAY_MESSAGES).format(name=person["name"])
+    text = BIRTHDAY_MESSAGE.format(name=person["name"])
 
     try:
-        client.chat_postMessage(channel=SLACK_CHANNEL, text=text, unfurl_links=False)
+        client.chat_postMessage(
+            channel=SLACK_CHANNEL,
+            text=text,
+            blocks=[
+                {
+                    "type": "image",
+                    "image_url": IMAGE_URL,
+                    "alt_text": "Happy Birthday!",
+                },
+                {
+                    "type": "section",
+                    "text": {"type": "mrkdwn", "text": text},
+                },
+            ],
+            unfurl_links=False,
+        )
         print(f"[성공] {person['name']}님 생일 메시지 전송 완료 → {SLACK_CHANNEL}")
         return True
     except SlackApiError as e:
