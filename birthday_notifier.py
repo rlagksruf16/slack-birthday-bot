@@ -32,9 +32,13 @@ BIRTHDAY_MESSAGE = (
     ":confetti_ball: *{name}*​가 오늘 행복한 하루를 보낼 수 있도록 다 같이 축하해 주세요 :gift:"
 )
 
+# IMAGE_URL = (
+#     "https://raw.githubusercontent.com/rlagksruf16/"
+#     "slack-birthday-bot/main/ALLSALE_HBD.png"
+# )
 IMAGE_URL = (
     "https://raw.githubusercontent.com/rlagksruf16/"
-    "slack-birthday-bot/main/ALLSALE_HBD.png"
+    "slack-birthday-bot/main/HBD_photo.jpg"
 )
 
 
