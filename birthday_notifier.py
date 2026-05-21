@@ -119,11 +119,11 @@ def send_slack_message(client: WebClient, person: dict) -> bool:
             channel=SLACK_CHANNEL,
             text=text,
             blocks=[
-                {
-                    "type": "image",
-                    "image_url": IMAGE_URL,
-                    "alt_text": "Happy Birthday!",
-                },
+                # {
+                #     "type": "image",
+                #     "image_url": IMAGE_URL,
+                #     "alt_text": "Happy Birthday!",
+                # },
                 {
                     "type": "section",
                     "text": {"type": "mrkdwn", "text": text},
